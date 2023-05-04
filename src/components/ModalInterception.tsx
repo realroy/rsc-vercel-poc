@@ -9,7 +9,6 @@ export type ModalInterceptionProps = {
 
 export function ModalInterception({ children }: ModalInterceptionProps) {
   const router = useRouter();
-  
   return (
     <Modal
       isOpened

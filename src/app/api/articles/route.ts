@@ -8,20 +8,17 @@ export async function POST(request: NextRequest) {
   try {
     const insertedArticles = await db
       .insert(articles)
-      .values(json)
+      .values({ ...json, createdAt: new Date(), updatedAt: new Date() })
       .returning({ insertedId: articles.id });
 
-    NextResponse.json(
-      {
-        error: null,
-        data: {
-          articleIds: insertedArticles.map(({ insertedId }) => insertedId),
-        },
-      },
-      { status: 201 }
-    );
+    return new Response(JSON.stringify({ data: {
+      article: {
+        ...json,
+        id: insertedArticles[0].insertedId,
+      }
+    }, error: null }), { status: 201 })
   } catch (error) {
-    console.log(error)
-    NextResponse.json({ error, data: null }, { status: 500 });
+
+    return new Response(JSON.stringify({ error, data: null }), { status: 500 });
   }
 }

@@ -1,26 +1,15 @@
 "use client";
 
-import type { Article } from "@/db";
 import Link from "next/link";
-import { MouseEventHandler } from "react";
+
+import type { Article } from "@/db";
 
 export type ArticleItemProps = {
   article: Article;
+  onClickDelete: (id: Article["id"]) => Promise<void>;
 };
 
-export function ArticleItem({ article }: ArticleItemProps) {
-  const handleClickDelete: MouseEventHandler<HTMLButtonElement> = async (e) => {
-    e.preventDefault();
-
-    try {
-      await fetch(`/api/articles/${article.id}`, {
-        method: "DELETE",
-      });
-    } catch (error) {
-      alert((error as Error).message);
-    }
-  };
-
+export function ArticleItem({ article, onClickDelete }: ArticleItemProps) {
   return (
     <article className="border-b py-4">
       <h3 className="text-ellipsis text-xl">{article.title}</h3>
@@ -34,7 +23,9 @@ export function ArticleItem({ article }: ArticleItemProps) {
         <button
           className="border p-2 text-sm"
           type="button"
-          onClick={handleClickDelete}
+          onClick={async (e) => {
+            await onClickDelete(article.id);
+          }}
         >
           Delete
         </button>

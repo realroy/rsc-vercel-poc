@@ -1,20 +1,20 @@
 import { desc, isNull } from "drizzle-orm";
 
-import { ArticleItem } from "@/components";
 import db, { articles } from "@/db";
+import ArticleList from "@/components/ArticleList";
 
-export default async function ArticlesPage() {
-  const articleItems = await db
+function getArticles() {
+  return db
     .select()
     .from(articles)
     .where(isNull(articles.deletedAt))
     .orderBy(desc(articles.createdAt));
+}
+
+export default async function ArticlesPage() {
+  const articleItems = await getArticles()
 
   return (
-    <div className="mt-4">
-      {articleItems.map((article) => (
-        <ArticleItem key={article.id} article={article} />
-      ))}
-    </div>
+    <ArticleList articles={articleItems} />
   );
 }

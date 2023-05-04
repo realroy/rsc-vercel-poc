@@ -13,7 +13,7 @@ export async function PUT(
     await db
       .update(articles)
       .set({ ...json, updatedAt: new Date() })
-      .where(eq(articles.id, +params.id))
+      .where(eq(articles.id, +params.id));
 
     NextResponse.json(
       {
@@ -27,7 +27,7 @@ export async function PUT(
       { status: 200 }
     );
   } catch (error) {
-    NextResponse.json({ error, data: null }, { status: 500 });
+    NextResponse.json({ error, data: null });
   }
 }
 
@@ -39,18 +39,17 @@ export async function DELETE(
     await db
       .update(articles)
       .set({ deletedAt: new Date() })
-      .where(eq(articles.id, +params.id))
+      .where(eq(articles.id, +params.id));
 
-    NextResponse.json(
-      {
-        error: null,
-        data: {
-          articleId: params.id,
+    return NextResponse.json({
+      error: null,
+      data: {
+        article: {
+          id: params.id
         },
       },
-      { status: 200 }
-    );
+    });
   } catch (error) {
-    NextResponse.json({ error, data: null }, { status: 500 });
+    return NextResponse.json({ error, data: null }, { status: 500 });
   }
 }
