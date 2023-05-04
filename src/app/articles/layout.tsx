@@ -19,7 +19,7 @@ export default function ArticlesLayout({
       {modalEdit}
       {modalNew}
       <main className="mx-auto max-w-[1024px] pt-6">
-        <div className="flex items-center justify-between border-b pb-4">
+        <div className="flex items-center justify-between">
           <Link href="/articles">
             <h1 className="text-3xl">Articles</h1>
           </Link>

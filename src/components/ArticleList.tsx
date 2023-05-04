@@ -1,34 +1,26 @@
 "use client";
 
-import { useState } from "react";
-
 import type { Article } from "@/db";
+import { useArticles } from "@/hooks/useArticles";
+import { useDeleteArticle } from "@/hooks/useDeleteArticle";
+
 import { ArticleItem } from "./ArticleItem";
 
-export type ArticleListProps = {
-  articles: Article[];
-};
+export type ArticleListProps = {};
 
-export default function ArticleList({ articles: initialArticles }: ArticleListProps) {
-  const [articles, setArticles] = useState(initialArticles)
-  
+export default function ArticleList({}: ArticleListProps) {
+  const { articles } = useArticles({});
+  const { deleteArticle } = useDeleteArticle();
   return (
-    <div className="mt-4">
-      {articles.map((article) => (
+    <div>
+      {articles?.map((article) => (
         <ArticleItem
           key={article.id}
           article={article}
           onClickDelete={async (id) => {
-            const prevArticles = articles
-            
             try {
-              setArticles(articles => articles.filter(article => article.id !== id))
-              await fetch(`/api/articles/${id}`, {
-                method: "DELETE",
-              });
-  
+              await deleteArticle(id);
             } catch (error) {
-              setArticles(prevArticles)
               alert((error as Error).message);
             }
           }}
