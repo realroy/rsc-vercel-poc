@@ -1,13 +1,7 @@
-import { ModalInterception } from "@/components/ModalInterception";
-import { ArticleCreateForm } from "@/components/ArticleForm";
+import { ModalCreateArticle } from "@/components/ModalCreateArticle";
 
-import { headers } from 'next/headers';
-
-export default async function ModalNewArticles() {
+export default async function Page() {
   return ( 
-    <ModalInterception>
-      <div className="text-2xl">New Article</div>
-      <ArticleCreateForm />
-    </ModalInterception>
+    <ModalCreateArticle isOpen />
   );
 }

@@ -1,10 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import type { Article } from "@/db";
 import type { ComponentPropsWithoutRef } from "react";
-import { useCreateArticle, useUpdateArticle } from "@/hooks";
+import type { Article } from "@/db";
 
 export type ArticleFormData = {
   id?: Article["id"];
@@ -27,8 +24,6 @@ export function ArticleForm({
   isLoading,
   ...props
 }: ArticleFormProps) {
-  const router = useRouter();
-
   const isSubmitDisabled = (!onSubmit || isLoading) ?? false;
 
   return (
@@ -48,16 +43,16 @@ export function ArticleForm({
             title: formData.get("title") as string,
             body: formData.get("body") as string,
           });
-
-          router.push("/articles");
         } catch (error) {
-          alert(JSON.stringify(error));
+          console.log(error);
         }
       }}
     >
       <input type="hidden" name="articleId" defaultValue={article?.id} />
       <p className="py-1">
-        <label htmlFor="title" className="text-md">Title</label>
+        <label htmlFor="title" className="text-md">
+          Title
+        </label>
         <input
           type="text"
           name="title"
@@ -68,7 +63,9 @@ export function ArticleForm({
         />
       </p>
       <p className="py-1">
-        <label htmlFor="title" className="text-md">Body</label>
+        <label htmlFor="title" className="text-md">
+          Body
+        </label>
         <textarea
           className="bg-slate-100 w-full"
           name="body"
@@ -88,18 +85,5 @@ export function ArticleForm({
   );
 }
 
-export function ArticleCreateForm() {
-  const { createArticle } = useCreateArticle();
 
-  return (
-    <div>
-      <ArticleForm onSubmit={createArticle} />
-    </div>
-  );
-}
 
-export function ArticleUpdateForm({ article }: { article: Article }) {
-  const { updateArticle } = useUpdateArticle();
-
-  return <ArticleForm article={article} onSubmit={updateArticle} />;
-}

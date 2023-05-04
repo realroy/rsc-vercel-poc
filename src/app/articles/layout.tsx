@@ -7,13 +7,16 @@ export const metadata = {
 
 export default function ArticlesLayout({
   children,
+  modalEdit,
   modalNew,
 }: {
+  modalEdit: React.ReactNode;
   modalNew: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <>
+      {modalEdit}
       {modalNew}
       <main className="mx-auto max-w-[1024px] pt-6">
         <div className="flex items-center justify-between border-b pb-4">

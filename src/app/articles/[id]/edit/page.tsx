@@ -1,10 +1,10 @@
-import { eq } from 'drizzle-orm';
 import { Suspense } from 'react';
 
-import db, { articles } from "@/db"
-import { ArticleForm, ArticleUpdateForm } from "@/components"
+import { ArticleRepository } from '@/repositories/article-repository';
+import { ArticleForm } from "@/components/ArticleForm"
 
 import type { Article } from '@/db'
+import { ArticleFormUpdate } from '@/components/ArticleFormUpdate';
 
 type PageArticlesEditProps = {
   params: {
@@ -29,7 +29,7 @@ type ArticleFormWrapperProps = {
 }
 
 async function ArticleFormWrapper({ articleId }: ArticleFormWrapperProps) {
-  const [article,] = await db.select().from(articles).where(eq(articles.id, articleId)).limit(1)
+  const article = await ArticleRepository.findById(articleId)
 
-  return <ArticleUpdateForm article={article} />
+  return <ArticleFormUpdate article={article} /> 
 }

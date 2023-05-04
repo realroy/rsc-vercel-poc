@@ -1,5 +1,5 @@
-import { ArticleCreateForm } from "@/components";
+import { ArticleFormNew } from "@/components/ArticleFormNew";
 
 export default async function ArticlesNewPage() {
-  return <ArticleCreateForm />;
+  return <ArticleFormNew />;
 }

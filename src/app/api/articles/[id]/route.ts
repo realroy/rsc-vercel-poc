@@ -10,17 +10,23 @@ export async function PUT(
   const json = await request.json();
 
   try {
-    await db
+    const [{ updatedCreatedAt: createdAt, updatedUpdatedAt: updatedAt },] = await db
       .update(articles)
       .set({ ...json, updatedAt: new Date() })
-      .where(eq(articles.id, +params.id));
+      .where(eq(articles.id, +params.id))
+      .returning({
+        updatedCreatedAt: articles.createdAt,
+        updatedUpdatedAt: articles.updatedAt,
+      });
 
-    NextResponse.json(
+    return NextResponse.json(
       {
         error: null,
         data: {
           article: {
-            id: params.id,
+            ...json,
+            updatedAt,
+            createdAt,
           },
         },
       },
@@ -45,7 +51,7 @@ export async function DELETE(
       error: null,
       data: {
         article: {
-          id: params.id
+          id: params.id,
         },
       },
     });
