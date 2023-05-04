@@ -7,9 +7,9 @@ export const metadata = {
 
 export default function ArticlesLayout({
   children,
-  modalNew
+  modalNew,
 }: {
-  modalNew: React.ReactNode
+  modalNew: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -17,7 +17,9 @@ export default function ArticlesLayout({
       {modalNew}
       <main className="mx-auto max-w-[1024px] pt-6">
         <div className="flex items-center justify-between border-b pb-4">
-          <h1 className="text-3xl">Articles</h1>
+          <Link href="/articles">
+            <h1 className="text-3xl">Articles</h1>
+          </Link>
           <Link href="/articles/new" className="bg-slate-100 py-2 px-4">
             New article
           </Link>

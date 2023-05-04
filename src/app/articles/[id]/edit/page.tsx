@@ -17,6 +17,7 @@ export default async function PageArticlesEdit({ params }: PageArticlesEditProps
     <main>
       <h1>Edit {params.id}</h1>
       <Suspense fallback={<ArticleForm isLoading />}>
+        {/* @ts-expect-error Server Component */}
         <ArticleFormWrapper articleId={+params.id} />
       </Suspense>
     </main>
